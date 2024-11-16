@@ -1,1 +1,1 @@
-## Practising Git Commands
+### This repo consists of a part of files created by me for purpose of learning and applying DSA.
