@@ -1,0 +1,1 @@
+{"name":"Local: Zig_Zag_LL","url":"c:\\Users\\hp\\Desktop\\Ash Codes\\Codes\\Zig_Zag_LL.c","tests":[{"id":1727157780068,"input":"8\n3 6 2 8 12 20 7 9\n1","output":"2592->1680"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\hp\\Desktop\\Ash Codes\\Codes\\Zig_Zag_LL.c","group":"local","local":true}
