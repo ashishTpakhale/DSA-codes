@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-// Define a Node structure for the Splay Tree
 typedef struct Node {
     int key;
     int value;
@@ -11,14 +10,12 @@ typedef struct Node {
     struct Node* parent;
 } Node;
 
-// Define a structure for the SplayTreeCache
 typedef struct {
     Node* root;
     int size;
     int capacity;
 } SplayTreeCache;
 
-// Helper function to create a new node
 Node* create_node(int key, int value) {
     Node* node = (Node*)malloc(sizeof(Node));
     node->key = key;
@@ -29,7 +26,6 @@ Node* create_node(int key, int value) {
     return node;
 }
 
-// Right rotation
 void right_rotate(SplayTreeCache* cache, Node* x) {
     Node* y = x->left;
     x->left = y->right;
@@ -46,7 +42,6 @@ void right_rotate(SplayTreeCache* cache, Node* x) {
     x->parent = y;
 }
 
-// Left rotation
 void left_rotate(SplayTreeCache* cache, Node* x) {
     Node* y = x->right;
     x->right = y->left;
@@ -63,7 +58,7 @@ void left_rotate(SplayTreeCache* cache, Node* x) {
     x->parent = y;
 }
 
-// Splay operation
+// Splay operation implementation (without recc)
 void splay(SplayTreeCache* cache, Node* n) {
     while (n->parent) {
         Node* p = n->parent;
@@ -90,7 +85,6 @@ void splay(SplayTreeCache* cache, Node* n) {
     }
 }
 
-// Find a node and splay it to the root
 Node* find(SplayTreeCache* cache, int key) {
     Node* n = cache->root;
     while (n) {
@@ -106,7 +100,7 @@ Node* find(SplayTreeCache* cache, int key) {
     return NULL;
 }
 
-// Insert a new key-value pair into the Splay Tree
+// Insert a new key
 void insert(SplayTreeCache* cache, int key, int value) {
     Node* n = cache->root;
     Node* parent = NULL;
@@ -117,7 +111,7 @@ void insert(SplayTreeCache* cache, int key, int value) {
         } else if (key > n->key) {
             n = n->right;
         } else {
-            n->value = value; // Update value if key already exists
+            n->value = value; // Update if key exists
             splay(cache, n);
             return;
         }
@@ -135,7 +129,6 @@ void insert(SplayTreeCache* cache, int key, int value) {
     cache->size++;
 }
 
-// Print preorder traversal of the tree
 void print_preorder(Node* n) {
     if (!n) return;
     printf("%d(%d) ", n->key, n->value);
@@ -148,7 +141,6 @@ void print_cache(SplayTreeCache* cache) {
     printf("\n");
 }
 
-// Initialize a Splay Tree Cache
 SplayTreeCache* create_cache(int capacity) {
     SplayTreeCache* cache = (SplayTreeCache*)malloc(sizeof(SplayTreeCache));
     cache->root = NULL;
@@ -157,52 +149,24 @@ SplayTreeCache* create_cache(int capacity) {
     return cache;
 }
 
-// Evict the least recently used node
-void evict(SplayTreeCache* cache) {
-    Node* n = cache->root;
-    while (n->left) {
-        n = n->left;
-    }
-    splay(cache, n);
-    if (n->right) {
-        n->right->parent = NULL;
-    }
-    cache->root = n->right;
-    free(n);
-    cache->size--;
-}
-
-// Add a key-value pair with eviction policy
-void put(SplayTreeCache* cache, int key, int value) {
-    if (cache->size == cache->capacity) {
-        evict(cache);
-    }
-    insert(cache, key, value);
-}
-
-// Retrieve a value by key
 int get(SplayTreeCache* cache, int key) {
     Node* n = find(cache, key);
     return n ? n->value : -1;
 }
-
-// Main function to demonstrate usage
 int main() {
     SplayTreeCache* cache = create_cache(10);
 
-    // Insert key-value pairs
-    put(cache, 10, 640);
-    put(cache, 5, 100);
-    put(cache, 3, 150);
-    put(cache, 4, 125);
-    put(cache, 7, 700);
-    put(cache, 11, 500);
-    put(cache, 9, 230);
-    put(cache, 2, 560);
-    put(cache, 6, 580);
-    put(cache, 8, 780);
+    insert(cache, 10, 640);
+    insert(cache, 5, 100);
+    insert(cache, 3, 150);
+    insert(cache, 4, 125);
+    insert(cache, 7, 700);
+    insert(cache, 11, 500);
+    insert(cache, 9, 230);
+    insert(cache, 2, 560);
+    insert(cache, 6, 580);
+    insert(cache, 8, 780);
 
-    // Print cache
     print_cache(cache);
 
     return 0;
